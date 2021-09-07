@@ -1,14 +1,19 @@
 package bassem.bm.task.nagwa.ui
 
 import androidx.databinding.ObservableField
-import bassem.bm.task.nagwa.data.model.ResponseDataItem
+import bassem.bm.task.nagwa.data.model.DataItem
 import bassem.bm.task.nagwa.data.repository.Repository
 import bassem.bm.task.nagwa.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
+
+    private val _list: MutableStateFlow<List<DataItem>> = MutableStateFlow(emptyList())
+    val list: StateFlow<List<DataItem>> = _list
 
     val result: ObservableField<String> = ObservableField("")
 
@@ -21,18 +26,9 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
         repository.getItemsList(this::bindList, this::handleError)
     }
 
-    private fun bindList(list: List<ResponseDataItem>) {
+    private fun bindList(list: List<DataItem>) {
         isLoading.set(false)
-        setResult("${list.size} Items Retrieved")
+        _list.value = list
     }
 
-    override fun handleError(error: Throwable) {
-        super.handleError(error)
-
-        setResult(error.localizedMessage)
-    }
-
-    private fun setResult(itemsResult: String) {
-        result.set(itemsResult)
-    }
 }

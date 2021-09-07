@@ -7,7 +7,7 @@ enum class TYPE {
 }
 
 @JsonClass(generateAdapter = true)
-data class ResponseDataItem(
+data class DataItem(
     val id: Int = 0,
     val name: String = "",
     val type: TYPE = TYPE.VIDEO,
