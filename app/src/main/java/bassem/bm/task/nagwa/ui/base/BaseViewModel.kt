@@ -1,4 +1,6 @@
 package bassem.bm.task.nagwa.ui.base
 
-class BaseViewModel {
+import androidx.lifecycle.ViewModel
+
+open class BaseViewModel : ViewModel(){
 }
