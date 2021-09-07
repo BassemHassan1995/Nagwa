@@ -4,8 +4,10 @@ import androidx.databinding.ObservableField
 import bassem.bm.task.nagwa.data.repository.Repository
 import bassem.bm.task.nagwa.ui.base.BaseViewModel
 import bassem.bm.task.nagwa.utils.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class SharedViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     val result: ObservableField<String> = ObservableField("")
@@ -15,7 +17,7 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
     }
 
     private fun getItemsList() {
-        when (val result = repository.getDownloadedItems()) {
+        when (val result = repository.getItemsList()) {
             is Result.Failure -> setResult("Error Getting List")
             is Result.Success -> setResult("${result.value.size} Items Retrieved")
         }

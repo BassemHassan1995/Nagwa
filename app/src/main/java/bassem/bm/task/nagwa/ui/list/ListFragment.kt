@@ -6,7 +6,9 @@ import androidx.fragment.app.activityViewModels
 import bassem.bm.task.nagwa.databinding.FragmentListBinding
 import bassem.bm.task.nagwa.ui.SharedViewModel
 import bassem.bm.task.nagwa.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : BaseFragment<FragmentListBinding>() {
 
     override val viewModel by activityViewModels<SharedViewModel>()
