@@ -46,9 +46,11 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayout_version"
 
     //Moshi
-    //Moshi
     implementation "com.squareup.moshi:moshi:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
     //ktx
     implementation "androidx.activity:activity-ktx:$activity_version"
