@@ -9,4 +9,6 @@ interface Repository {
     fun downloadItem(id: Int) : Result<Boolean>
 
     fun getDownloadedItems() : Result<List<DataItem>>
+
+    fun getOfflineItemsList() : List<DataItem>
 }

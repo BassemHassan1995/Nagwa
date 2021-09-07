@@ -6,10 +6,15 @@ enum class TYPE {
     VIDEO, PDF
 }
 
+enum class DOWNLOAD_STATE {
+    NOT_DOWNLOADED, DOWNLOADING, DOWNLOADED
+}
+
 @JsonClass(generateAdapter = true)
 data class DataItem(
     val id: Int = 0,
     val name: String = "",
     val type: TYPE = TYPE.VIDEO,
-    val url: String = ""
+    val url: String = "",
+    val downloadState: DOWNLOAD_STATE = DOWNLOAD_STATE.NOT_DOWNLOADED
 )

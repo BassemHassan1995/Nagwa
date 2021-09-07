@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,7 +21,6 @@
             itemType="@{item.type}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_video"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,25 +28,41 @@
 
         <TextView
             android:id="@+id/tv_item_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:text="@{item.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
+            app:flow_horizontalBias="0"
             app:layout_constraintBottom_toBottomOf="@id/image_view_type"
+            app:layout_constraintEnd_toStartOf="@id/btn_download"
             app:layout_constraintStart_toEndOf="@id/image_view_type"
-            app:layout_constraintTop_toTopOf="@id/image_view_type" />
+            app:layout_constraintTop_toTopOf="@id/image_view_type"
+            tools:text="Bassem Hassan Kamal Hussien" />
+
+        <ProgressBar
+            android:id="@+id/progress_horizontal"
+            style="?android:attr/progressBarStyleHorizontal"
+            downloadState="@{item.downloadState}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:progress="@integer/material_motion_duration_long_1"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_name"
+            app:layout_constraintStart_toStartOf="@id/tv_item_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
 
         <ImageView
-            android:src="@drawable/ic_download"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintWidth_percent="0.1"
             android:id="@+id/btn_download"
+            downloadState="@{item.downloadState}"
             android:layout_width="0dp"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

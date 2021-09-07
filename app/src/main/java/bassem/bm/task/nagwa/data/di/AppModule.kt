@@ -6,6 +6,7 @@ import bassem.bm.task.nagwa.data.remote.ApiService
 import bassem.bm.task.nagwa.data.repository.Repository
 import bassem.bm.task.nagwa.data.repository.RepositoryImpl
 import bassem.bm.task.nagwa.utils.BASE_URL
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +40,11 @@ object AppModule {
     @Provides
     fun provideCallAdapterFactory(): RxJava2CallAdapterFactory =
         RxJava2CallAdapterFactory.create()
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi =
+        Moshi.Builder().build()
 
     @Singleton
     @Provides

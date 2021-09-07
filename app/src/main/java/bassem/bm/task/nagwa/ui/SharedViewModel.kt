@@ -1,6 +1,5 @@
 package bassem.bm.task.nagwa.ui
 
-import androidx.databinding.ObservableField
 import bassem.bm.task.nagwa.data.model.DataItem
 import bassem.bm.task.nagwa.data.repository.Repository
 import bassem.bm.task.nagwa.ui.base.BaseViewModel
@@ -15,8 +14,6 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
     private val _list: MutableStateFlow<List<DataItem>> = MutableStateFlow(emptyList())
     val list: StateFlow<List<DataItem>> = _list
 
-    val result: ObservableField<String> = ObservableField("")
-
     init {
         getItemsList()
     }
@@ -29,6 +26,11 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
     private fun bindList(list: List<DataItem>) {
         isLoading.set(false)
         _list.value = list
+    }
+
+    override fun handleError(error: Throwable) {
+        super.handleError(error)
+        _list.value = repository.getOfflineItemsList()      //Get list from JSON
     }
 
 }
