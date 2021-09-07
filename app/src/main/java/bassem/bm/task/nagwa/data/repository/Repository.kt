@@ -1,12 +1,12 @@
 package bassem.bm.task.nagwa.data.repository
 
 import bassem.bm.task.nagwa.data.model.ResponseDataItem
-import bassem.bm.task.nagwa.utils.Result
+import io.reactivex.functions.Consumer
 
 interface Repository {
-    suspend fun getItemsList(): Result<List<ResponseDataItem>>
+    fun getItemsList(onSuccess: Consumer<List<ResponseDataItem>>, onError : Consumer<Throwable>)
 
-    suspend fun downloadItem(id: Int) : Result<Boolean>
+    fun downloadItem(id: Int) : Result<Boolean>
 
     fun getDownloadedItems() : Result<List<ResponseDataItem>>
 }

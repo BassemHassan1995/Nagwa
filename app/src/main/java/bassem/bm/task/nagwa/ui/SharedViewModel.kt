@@ -1,9 +1,9 @@
 package bassem.bm.task.nagwa.ui
 
 import androidx.databinding.ObservableField
+import bassem.bm.task.nagwa.data.model.ResponseDataItem
 import bassem.bm.task.nagwa.data.repository.Repository
 import bassem.bm.task.nagwa.ui.base.BaseViewModel
-import bassem.bm.task.nagwa.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,10 +17,15 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
     }
 
     private fun getItemsList() {
-        when (val result = repository.getItemsList()) {
-            is Result.Failure -> setResult("Error Getting List")
-            is Result.Success -> setResult("${result.value.size} Items Retrieved")
-        }
+        repository.getItemsList(this::bindList, this::handleError)
+    }
+
+    private fun bindList(list: List<ResponseDataItem>){
+        setResult("${list.size} Items Retrieved")
+    }
+
+    override fun handleError(error: Throwable){
+        setResult(error.localizedMessage)
     }
 
     private fun setResult(itemsResult: String) {

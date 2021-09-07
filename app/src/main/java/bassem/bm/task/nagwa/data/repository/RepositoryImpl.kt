@@ -1,35 +1,33 @@
 package bassem.bm.task.nagwa.data.repository
 
+import android.annotation.SuppressLint
+import android.util.Log
 import bassem.bm.task.nagwa.data.model.ResponseDataItem
 import bassem.bm.task.nagwa.data.remote.ApiHelper
-import bassem.bm.task.nagwa.utils.RESPONSE_JSON
-import bassem.bm.task.nagwa.utils.Result
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import java.lang.Exception
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
 class RepositoryImpl @Inject constructor(private val apiHelper: ApiHelper) : Repository {
 
-    override fun getItemsList(): Result<List<ResponseDataItem>> = Result {
-        val response = apiHelper.getItemsList()
-        when (response.isSuccessful) {
-            true -> response.body()!!
-            false -> throw Exception(response.errorBody().toString())
-        }
+    @SuppressLint("CheckResult")
+    override fun getItemsList(onSuccess: Consumer<List<ResponseDataItem>>, onError : Consumer<Throwable>){
+        apiHelper.getItemsList()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(onSuccess, onError)
+    }
+    private fun handleResponse(list: List<ResponseDataItem>){
+        Log.d("TESTING", "handleResponse: ${list.size}")
     }
 
-    override suspend fun downloadItem(id: Int): Result<Boolean> {
-        TODO("Not yet implemented")
+    private fun  handleError(error: Throwable){
+        Log.d("TESTING", "handleResponse: ${error.message}")
     }
 
-    override fun getDownloadedItems(): Result<List<ResponseDataItem>> = Result {
-        val moshi = Moshi.Builder().build()
-        val listType = Types.newParameterizedType(List::class.java, ResponseDataItem::class.java)
+    override fun downloadItem(id: Int): Result<Boolean> = TODO("Not yet implemented")
 
-        val jsonAdapter: JsonAdapter<List<ResponseDataItem>> = moshi.adapter(listType)
-        jsonAdapter.fromJson(RESPONSE_JSON)!!
-    }
+    override fun getDownloadedItems(): Result<List<ResponseDataItem>> = TODO("Not yet implemented")
 }
