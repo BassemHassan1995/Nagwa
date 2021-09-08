@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 class ListFragment : BaseFragment<FragmentListBinding>() {
 
     override val viewModel by activityViewModels<SharedViewModel>()
-    val itemAdapter = DataItemAdapter()
+    private val itemAdapter = DataItemAdapter { viewModel.downloadItem(it) }
 
     override fun getViewBinding(
         inflater: LayoutInflater,

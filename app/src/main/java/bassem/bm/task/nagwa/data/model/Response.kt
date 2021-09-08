@@ -16,5 +16,4 @@ data class DataItem(
     val name: String = "",
     val type: TYPE = TYPE.VIDEO,
     val url: String = "",
-    val downloadState: DOWNLOAD_STATE = DOWNLOAD_STATE.NOT_DOWNLOADED
 )

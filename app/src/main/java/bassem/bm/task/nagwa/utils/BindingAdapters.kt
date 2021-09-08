@@ -7,15 +7,15 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import bassem.bm.task.nagwa.R
 import bassem.bm.task.nagwa.data.model.DOWNLOAD_STATE
-import bassem.bm.task.nagwa.data.model.DataItem
 import bassem.bm.task.nagwa.data.model.TYPE
 import bassem.bm.task.nagwa.ui.list.DataItemAdapter
+import bassem.bm.task.nagwa.ui.list.DataItemViewModel
 
 
 @BindingAdapter("listData")
 fun bindRecyclerView(
     recyclerView: RecyclerView,
-    data: List<DataItem>?
+    data: List<DataItemViewModel>?
 ) {
     val adapter = recyclerView.adapter as DataItemAdapter
     adapter.submitList(data)
@@ -50,9 +50,9 @@ fun bindDownloadState(view: ImageView, state: DOWNLOAD_STATE) = view.setImageRes
 fun bindDownloadState(progress: ProgressBar, state: DOWNLOAD_STATE) {
     progress.visibility =
         when (state) {
-            DOWNLOAD_STATE.NOT_DOWNLOADED -> View.GONE
-            DOWNLOAD_STATE.DOWNLOADING -> View.GONE
-            DOWNLOAD_STATE.DOWNLOADED -> View.GONE
+            DOWNLOAD_STATE.NOT_DOWNLOADED -> View.INVISIBLE
+            DOWNLOAD_STATE.DOWNLOADING -> View.VISIBLE
+            DOWNLOAD_STATE.DOWNLOADED -> View.INVISIBLE
         }
 }
 

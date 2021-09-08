@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="item"
-            type="bassem.bm.task.nagwa.data.model.DataItem" />
+            name="viewModel"
+            type="bassem.bm.task.nagwa.ui.list.DataItemViewModel" />
 
     </data>
 
@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/image_view_type"
-            itemType="@{item.type}"
+            itemType="@{viewModel.item.type}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="@{item.name}"
+            android:text="@{viewModel.item.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
             app:flow_horizontalBias="0"
@@ -45,17 +45,18 @@
         <ProgressBar
             android:id="@+id/progress_horizontal"
             style="?android:attr/progressBarStyleHorizontal"
-            downloadState="@{item.downloadState}"
+            downloadState="@{viewModel.downloadState}"
+            android:progress="@{viewModel.downloadProgress}"
+            android:max="100"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:progress="@integer/material_motion_duration_long_1"
             app:layout_constraintEnd_toEndOf="@id/tv_item_name"
             app:layout_constraintStart_toStartOf="@id/tv_item_name"
             app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
 
         <ImageView
             android:id="@+id/btn_download"
-            downloadState="@{item.downloadState}"
+            downloadState="@{viewModel.downloadState}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

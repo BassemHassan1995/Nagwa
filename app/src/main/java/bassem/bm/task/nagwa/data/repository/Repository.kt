@@ -6,9 +6,9 @@ import io.reactivex.functions.Consumer
 interface Repository {
     fun getItemsList(onSuccess: Consumer<List<DataItem>>, onError : Consumer<Throwable>)
 
-    fun downloadItem(id: Int) : Result<Boolean>
+    fun downloadItem(onProgress: Consumer<Int>, onError: Consumer<Throwable>)
 
-    fun getDownloadedItems() : Result<List<DataItem>>
+    fun getDownloadedItems() : List<DataItem>
 
     fun getOfflineItemsList() : List<DataItem>
 }
