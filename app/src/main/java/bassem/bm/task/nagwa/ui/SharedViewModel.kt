@@ -1,6 +1,7 @@
 package bassem.bm.task.nagwa.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import bassem.bm.task.nagwa.data.model.DOWNLOAD_STATE
 import bassem.bm.task.nagwa.data.model.DataItem
@@ -29,17 +30,12 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
 
     private fun getItemsList() {
         isLoading.set(true)
-        repository.getItemsList(this::bindList, this::handleError)
+        repository.getItemsList(this::bindList)
     }
 
     private fun bindList(list: List<DataItem>) {
         isLoading.set(false)
         _list.value = list.toViewModels()
-    }
-
-    override fun handleError(error: Throwable) {
-        super.handleError(error)
-        bindList(repository.getOfflineItemsList())
     }
 
     @SuppressLint("CheckResult")
@@ -48,7 +44,7 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
             currentViewModel = dataItemViewModel
             isDownloadingItem.set(true)
             dataItemViewModel.downloadState.set(DOWNLOAD_STATE.DOWNLOADING)
-            repository.downloadItem(this::updateProgress, this::handleError)
+            repository.downloadItem(dataItemViewModel.item, this::updateProgress, this::downloadCompleted, this::handleError)
         }
     }
 
@@ -63,8 +59,8 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
         }
     }
 
-    private fun getDownloadedItems() {
-        repository.getDownloadedItems()
+    private fun downloadCompleted(unit: Unit){
+        Log.d("TESTING", "downloadCompleted")
     }
 
 }

@@ -1,5 +1,9 @@
 package bassem.bm.task.nagwa.data.di
 
+import android.content.Context
+import androidx.room.Room
+import bassem.bm.task.nagwa.data.local.AppDatabase
+import bassem.bm.task.nagwa.data.local.DataItemDao
 import bassem.bm.task.nagwa.data.remote.ApiHelper
 import bassem.bm.task.nagwa.data.remote.ApiHelperImpl
 import bassem.bm.task.nagwa.data.remote.ApiService
@@ -10,6 +14,7 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -31,15 +36,29 @@ object AppModule {
         .addCallAdapterFactory(adapterFactory)
         .build()
 
-    @Singleton
-    @Provides
-    fun provideConverterFactory(): MoshiConverterFactory =
-        MoshiConverterFactory.create()
 
     @Singleton
     @Provides
     fun provideCallAdapterFactory(): RxJava2CallAdapterFactory =
         RxJava2CallAdapterFactory.create()
+
+    @Singleton
+    @Provides
+    fun provideItemDao(appDatabase: AppDatabase): DataItemDao = appDatabase.dataItemDao()
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "items"
+        ).build()
+    }
+    @Singleton
+    @Provides
+    fun provideConverterFactory(): MoshiConverterFactory =
+        MoshiConverterFactory.create()
 
     @Singleton
     @Provides

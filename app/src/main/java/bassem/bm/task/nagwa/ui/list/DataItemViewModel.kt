@@ -7,7 +7,12 @@ import bassem.bm.task.nagwa.data.model.DataItem
 
 data class DataItemViewModel(val item: DataItem) {
 
-    val downloadState = ObservableField(DOWNLOAD_STATE.NOT_DOWNLOADED)
+    val downloadState = ObservableField(
+        when (item.isDownloaded) {
+            true -> DOWNLOAD_STATE.DOWNLOADED
+            false -> DOWNLOAD_STATE.NOT_DOWNLOADED
+        }
+    )
     val downloadProgress = ObservableInt(0)
 
 }
