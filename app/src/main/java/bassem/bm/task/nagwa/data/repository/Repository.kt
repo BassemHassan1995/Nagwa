@@ -8,7 +8,7 @@ interface Repository {
     fun downloadItem(
         dataItem: DataItem,
         onProgress: (Int) -> Unit,
-        onComplete: (Unit) -> Unit,
+        onComplete: () -> Unit,
         onError: (Throwable) -> Unit
     )
 

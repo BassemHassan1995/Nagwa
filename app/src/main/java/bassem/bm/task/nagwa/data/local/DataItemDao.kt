@@ -9,7 +9,7 @@ import io.reactivex.Single
 interface DataItemDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(items: List<DataItem>) : Completable
+    fun insertAll(items: List<DataItem>): Completable
 
     @Query("SELECT * FROM DataItem")
     fun getAllItems(): Single<List<DataItem>>
@@ -18,5 +18,5 @@ interface DataItemDao {
     fun getDownloadedItems(): Single<List<DataItem>>
 
     @Update
-    fun downloadItem(dataItem: DataItem): Single<Unit>
+    fun downloadItem(dataItem: DataItem): Completable
 }

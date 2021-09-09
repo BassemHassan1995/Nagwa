@@ -44,7 +44,12 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
             currentViewModel = dataItemViewModel
             isDownloadingItem.set(true)
             dataItemViewModel.downloadState.set(DOWNLOAD_STATE.DOWNLOADING)
-            repository.downloadItem(dataItemViewModel.item, this::updateProgress, this::downloadCompleted, this::handleError)
+            repository.downloadItem(
+                dataItemViewModel.item,
+                this::updateProgress,
+                this::downloadCompleted,
+                this::handleError
+            )
         }
     }
 
@@ -59,7 +64,7 @@ class SharedViewModel @Inject constructor(private val repository: Repository) : 
         }
     }
 
-    private fun downloadCompleted(unit: Unit){
+    private fun downloadCompleted() {
         Log.d("TESTING", "downloadCompleted")
     }
 

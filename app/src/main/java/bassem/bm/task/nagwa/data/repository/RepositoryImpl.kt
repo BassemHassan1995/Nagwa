@@ -20,12 +20,16 @@ class RepositoryImpl @Inject constructor(
     private val itemDao: DataItemDao
 ) : Repository {
 
+    override fun getItemsList(onSuccess: (List<DataItem>) -> Unit) = getApiItemsList(onSuccess)
+
     @SuppressLint("CheckResult")
-    override fun getItemsList(onSuccess: (List<DataItem>) -> Unit) {
+    private fun getApiItemsList(onSuccess: (List<DataItem>) -> Unit) {
         apiHelper.getItemsList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(onSuccess, { getCashedItemsList(onSuccess) })
+            .subscribe(
+                { cacheItemsList(it) { getCashedItemsList(onSuccess) } },
+                { getCashedItemsList(onSuccess) })
     }
 
     @SuppressLint("CheckResult")
@@ -34,6 +38,14 @@ class RepositoryImpl @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(onSuccess, { getOfflineItemsList(onSuccess) })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun cacheItemsList(list: List<DataItem>, onComplete: () -> Unit) {
+        itemDao.insertAll(list)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(onComplete)
     }
 
     private fun getOfflineItemsList(onSuccess: (List<DataItem>) -> Unit) {
@@ -46,8 +58,8 @@ class RepositoryImpl @Inject constructor(
     override fun getDownloadedItems(): List<DataItem> = TODO("Not yet implemented")
 
     @SuppressLint("CheckResult")
-    override fun downloadItem(dataItem: DataItem, onProgress: (Int) -> Unit, onComplete: (Unit) -> Unit, onError: (Throwable) -> Unit) {
-        fakeDownload(onProgress, onError)
+    override fun downloadItem(dataItem: DataItem, onProgress: (Int) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit) {
+        fakeDownload(onProgress)
         dataItem.isDownloaded = true
         itemDao.downloadItem(dataItem)
             .observeOn(AndroidSchedulers.mainThread())
@@ -56,12 +68,12 @@ class RepositoryImpl @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    private fun fakeDownload(onProgress: (Int) -> Unit, onError: (Throwable) -> Unit) {
+    private fun fakeDownload(onProgress: (Int) -> Unit) {
         Observable.intervalRange(1, 100, 10, 50, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .map { it.toInt() }
-            .subscribe(onProgress, onError)
+            .subscribe(onProgress)
     }
 
 }
