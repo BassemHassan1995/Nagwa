@@ -28,52 +28,78 @@ class RepositoryImpl @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(
-                { cacheItemsList(it) { getCashedItemsList(onSuccess) } },
-                { getCashedItemsList(onSuccess) })
+                //OnSuccess: save the list to database and return the saved list
+                { cacheItemsList(it) { getCachedItemsList(onSuccess) } },
+                //OnError: return the cached list from database
+                { getCachedItemsList(onSuccess) })
     }
 
     @SuppressLint("CheckResult")
-    private fun getCashedItemsList(onSuccess: (List<DataItem>) -> Unit) {
+    private fun getCachedItemsList(onSuccess: (List<DataItem>) -> Unit) {
         itemDao.getAllItems()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(onSuccess, { getOfflineItemsList(onSuccess) })
-    }
-
-    @SuppressLint("CheckResult")
-    private fun cacheItemsList(list: List<DataItem>, onComplete: () -> Unit) {
-        itemDao.insertAll(list)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(onComplete)
+            .subscribe(
+                //OnSuccess: if the list is empty return the offline list from Json, else return the list
+                { if (it.isEmpty()) getOfflineItemsList(onSuccess) else onSuccess(it) },
+                //OnError: return the offline list from Json
+                { getOfflineItemsList(onSuccess) })
     }
 
     private fun getOfflineItemsList(onSuccess: (List<DataItem>) -> Unit) {
         val listType = Types.newParameterizedType(List::class.java, DataItem::class.java)
 
         val jsonAdapter: JsonAdapter<List<DataItem>> = moshi.adapter(listType)
-        onSuccess(jsonAdapter.fromJson(RESPONSE_JSON) ?: listOf())
+        //save the parsed list to database and return the saved list
+        cacheItemsList(jsonAdapter.fromJson(RESPONSE_JSON) ?: listOf()) {
+            getCachedItemsList(onSuccess)
+        }
     }
 
-    override fun getDownloadedItems(): List<DataItem> = TODO("Not yet implemented")
-
     @SuppressLint("CheckResult")
-    override fun downloadItem(dataItem: DataItem, onProgress: (Int) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit) {
-        fakeDownload(onProgress)
-        dataItem.isDownloaded = true
-        itemDao.downloadItem(dataItem)
+    private fun cacheItemsList(list: List<DataItem>, onComplete: () -> Unit) {
+        //Save the list to the database
+        itemDao.insertAll(list)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(onComplete, onError)
+            .subscribe(onComplete)
+    }
+
+
+    override fun downloadItem(
+        dataItem: DataItem,
+        onProgress: (Int) -> Unit,
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        updateItem(true, dataItem) { fakeDownload(onProgress, onComplete, onError) }
+    }
+
+    override fun removeDownloadedItem(dataItem: DataItem, onComplete: () -> Unit) {
+        updateItem(false, dataItem, onComplete)
     }
 
     @SuppressLint("CheckResult")
-    private fun fakeDownload(onProgress: (Int) -> Unit) {
+    private fun updateItem(markDownloaded: Boolean, dataItem: DataItem, onComplete: () -> Unit) {
+        dataItem.isDownloaded = markDownloaded
+        itemDao.updateItem(dataItem)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe { onComplete() }
+    }
+
+
+    @SuppressLint("CheckResult")
+    private fun fakeDownload(
+        onProgress: (Int) -> Unit,
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
         Observable.intervalRange(1, 100, 10, 50, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .map { it.toInt() }
-            .subscribe(onProgress)
+            .subscribe(onProgress, onError, onComplete)
     }
 
 }

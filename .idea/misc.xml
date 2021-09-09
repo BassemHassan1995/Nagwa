@@ -7,15 +7,21 @@
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_download.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_downloaded.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_downloading.xml" value="0.1824074074074074" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_downloads.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_file.xml" value="0.2703125" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_folder.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_note.xml" value="0.2703125" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_pdf.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/drawable/ic_video.xml" value="0.2703125" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/activity_test.xml" value="0.25416666666666665" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/data_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/fragment_download_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/fragment_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/layout/list_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/menu/bottom_menu_nav.xml" value="0.25416666666666665" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1824074074074074" />
         <entry key="..\:/Work/Learning/Kotlin/Tasks/Nagwa/Nagwa/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1824074074074074" />
       </map>

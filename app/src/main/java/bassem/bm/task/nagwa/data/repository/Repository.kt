@@ -12,5 +12,7 @@ interface Repository {
         onError: (Throwable) -> Unit
     )
 
-    fun getDownloadedItems(): List<DataItem>
+    fun removeDownloadedItem(
+        dataItem: DataItem, onComplete: () -> Unit,
+    )
 }

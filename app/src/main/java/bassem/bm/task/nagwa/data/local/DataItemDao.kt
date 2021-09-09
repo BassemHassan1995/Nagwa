@@ -18,5 +18,5 @@ interface DataItemDao {
     fun getDownloadedItems(): Single<List<DataItem>>
 
     @Update
-    fun downloadItem(dataItem: DataItem): Completable
+    fun updateItem(dataItem: DataItem): Completable
 }
